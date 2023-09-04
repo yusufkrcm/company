@@ -1,13 +1,15 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   application:
     name: product
-
+employee:
+  url: http://localhost:8081
 # Feign istemcisi yapılandırması
 feign:
   client:
+
     config:
       default:
         connectTimeout: 5000 # Bağlantı zaman aşımı (ms)
