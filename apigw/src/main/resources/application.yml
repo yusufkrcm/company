@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+# Spring Cloud Gateway konfigürasyonu
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: employee
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/employee/**
+        - id: product
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/product/**
