@@ -10,4 +10,5 @@ class ApigwApplication
 
 fun main(args: Array<String>) {
 	runApplication<ApigwApplication>(*args)
+
 }
