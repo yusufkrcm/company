@@ -10,4 +10,5 @@ class ProductApplication
 
 fun main(args: Array<String>) {
 	runApplication<ProductApplication>(*args)
+
 }
