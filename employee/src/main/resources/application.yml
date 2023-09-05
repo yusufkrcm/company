@@ -1,8 +1,19 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: employee
-server:
-  port: 8081
+  datasource:
+    url: jdbc:postgresql://localhost:5432/company-employee?createDatabaseIfNotExist=true
+    username: admin
+    password: admin123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
 
 feign:
   client:
