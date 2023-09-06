@@ -1,0 +1,16 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: user
+
+# Feign istemcisi yapılandırması
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000 # Bağlantı zaman aşımı (ms)
+        readTimeout: 5000    # Okuma zaman aşımı (ms)
+  logger:
+    level: full            # Feign istemcisinin günlükleme seviyesi (full, basic, headers, none)
