@@ -26,25 +26,21 @@ class DatabaseInitializer {
     @Value("\${database.driverClassName}")
     private lateinit var databaseDriver: String
 
+    @Value("\${database.createIfNotExist}")
+    private var createIfNotExist: Boolean = false
+
+
     @Bean
     fun dataSource(): DataSource {
-        createDatabaseIfNotExists()
-        val dataSource = HikariDataSource()
-        dataSource.jdbcUrl = databaseUrl + databaseName
-        dataSource.username = databaseUsername
-        dataSource.password = databasePassword
-        dataSource.driverClassName = databaseDriver
-        return dataSource
+        if (createIfNotExist)
+            createDatabaseIfNotExists()
+
+        return getDataSource(databaseUrl + databaseName)
     }
 
     fun createDatabaseIfNotExists() {
-        val dataSource = HikariDataSource()
-        dataSource.jdbcUrl = databaseUrl
-        dataSource.username = databaseUsername
-        dataSource.password = databasePassword
-        dataSource.driverClassName = databaseDriver
 
-        val jdbcTemplate = JdbcTemplate(dataSource)
+        val jdbcTemplate = JdbcTemplate(getDataSource(databaseUrl))
 
         val result = jdbcTemplate.query("SELECT * FROM pg_database WHERE datname = '$databaseName'")
         { rs, _ ->
@@ -53,6 +49,15 @@ class DatabaseInitializer {
 
         if (result == null) {
             jdbcTemplate.execute("CREATE DATABASE $databaseName")
+        }
+    }
+
+    fun getDataSource(url: String): DataSource {
+        return HikariDataSource().apply {
+            jdbcUrl = url
+            username = databaseUsername
+            password = databasePassword
+            driverClassName = databaseDriver
         }
     }
 

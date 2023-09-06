@@ -4,9 +4,6 @@ server:
 spring:
   application:
     name: employee
-  config:
-    import:
-      - env.properties
   jpa:
     properties:
       hibernate:
@@ -31,6 +28,7 @@ database:
   username: ${DB_USER}
   password: ${DB_PASSWORD}
   driverClassName: org.postgresql.Driver
+  createIfNotExist: true
 
 feign:
   client:
@@ -40,3 +38,10 @@ feign:
         readTimeout: 5000    # Okuma zaman aşımı (ms)
   logger:
     level: full            # Feign istemcisinin günlükleme seviyesi (full, basic, headers, none)
+
+DB_TYPE: postgresql
+DB_HOST: localhost
+DB_PORT: 5432
+DB_NAME: company_employee
+DB_USER: admin
+DB_PASSWORD: admin123
