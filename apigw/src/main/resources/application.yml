@@ -5,18 +5,3 @@ server:
 spring:
   application:
     name: api-gateway
-  cloud:
-    gateway:
-      routes:
-        - id: employee
-          uri: http://localhost:8081
-          predicates:
-            - Path=/employee/**
-        - id: product
-          uri: http://localhost:8082
-          predicates:
-            - Path=/product/**
-        - id: user
-          uri: http://localhost:8083
-          predicates:
-            - Path=/user/**

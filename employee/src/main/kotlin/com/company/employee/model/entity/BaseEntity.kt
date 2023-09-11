@@ -1,4 +1,4 @@
-package com.company.employee.entity
+package com.company.employee.model.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
