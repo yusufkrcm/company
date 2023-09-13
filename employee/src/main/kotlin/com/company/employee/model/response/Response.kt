@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor
 
 @AllArgsConstructor
 sealed class Response (
-    private var message: String? = null,
-    private var responseCode: ResponseCode? = null
+    var message: String? = null,
+    var responseCode: ResponseCode? = null
 ) {
     constructor(responseCode: ResponseCode) : this() { this.responseCode = responseCode}
 
