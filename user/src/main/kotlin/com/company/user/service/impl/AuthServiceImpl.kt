@@ -1,5 +1,6 @@
 package com.company.user.service.impl
 
+import com.company.user.mapper.toEntity
 import com.company.user.model.entity.User
 import com.company.user.model.exception.UserAlreadyExists
 import com.company.user.model.exception.WrongPassword
@@ -24,7 +25,7 @@ class AuthServiceImpl(
     private val jwtUtil: JwtUtil
 ) : AuthService {
 
-    private val userRole : String = "USER"
+    private val userRole: String = "USER"
 
     override fun login(request: LoginRequest): LoginResponse {
 
@@ -40,23 +41,13 @@ class AuthServiceImpl(
     }
 
     override fun register(request: RegisterRequest) {
+        val role = roleService.findRoleByName(this.userRole)
 
         try {
-            userService.save(
-                User(
-                    username = request.username,
-                    password = passwordEncoder.encode(request.password),
-                    email = request.email,
-                    firstName = request.firstName,
-                    lastName = request.lastName,
-                    phoneNumber = request.phoneNumber,
-                    role = roleService.findRoleByName(userRole)
-                )
-            )
+            userService.save(request.toEntity(role))
         } catch (e: DataIntegrityViolationException) {
             throw UserAlreadyExists()
         }
-
     }
 
     override fun validate(request: ValidateRequest): Boolean {
