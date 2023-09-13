@@ -1,7 +1,7 @@
 package com.company.user.model.exception
 
-import com.company.user.model.enums.ResponseCode
 import com.company.user.model.annotations.UserResponseStatus
+import com.company.user.model.enums.ResponseCode
 import org.springframework.http.HttpStatus
 
 open class UserException(open val data: Map<String, String>? = null) : RuntimeException()

@@ -14,7 +14,6 @@ import com.company.user.util.JwtUtil
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.sql.SQLException
 
 
 @Service

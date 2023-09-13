@@ -1,5 +1,6 @@
 package com.company.employee.interceptor
 
+import com.company.employee.model.exception.JwtNotValid
 import com.company.employee.util.JwtUtil
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
@@ -21,24 +22,22 @@ class AuthFilter(private val jwtUtil: JwtUtil) : OncePerRequestFilter() {
     override fun doFilterInternal(req: HttpServletRequest, res: HttpServletResponse, chain: FilterChain) {
         try {
             val token = jwtUtil.getJwtFromRequest()
-            if (token.isNullOrEmpty()) {
-                chain.doFilter(req, res)
-                return
-            }
-            val role: String? = jwtUtil.getClaim(token, "role")
-            val principal: String? = jwtUtil.getSubject(token)
-            if (role != null && principal != null) {
-                val authorities: MutableList<SimpleGrantedAuthority> = ArrayList()
-                authorities.add(SimpleGrantedAuthority(role))
+            if (!token.isNullOrEmpty()) {
+                val role: String? = jwtUtil.getClaim(token, "role")
+                val principal: String? = jwtUtil.getSubject(token)
+                if (role != null && principal != null) {
+                    val authorities: MutableList<SimpleGrantedAuthority> = ArrayList()
+                    authorities.add(SimpleGrantedAuthority(role))
 
-                val authentication = UsernamePasswordAuthenticationToken(
-                    principal, null, authorities
-                )
-                authentication.details = WebAuthenticationDetailsSource().buildDetails(req)
-                SecurityContextHolder.getContext().authentication = authentication
+                    val authentication = UsernamePasswordAuthenticationToken(
+                        principal, null, authorities
+                    )
+                    authentication.details = WebAuthenticationDetailsSource().buildDetails(req)
+                    SecurityContextHolder.getContext().authentication = authentication
+                }
             }
         } catch (e: Exception) {
-            println("JwtAuthenticationFilter | doFilterInternal | e: $e")
+            throw JwtNotValid(e.message)
         }
         chain.doFilter(req, res)
     }
