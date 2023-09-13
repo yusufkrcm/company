@@ -1,7 +1,6 @@
 package com.company.apigw.security
 
 import com.company.apigw.security.model.ValidateRequest
-import com.company.apigw.security.model.ValidateResponse
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
 import org.springframework.http.HttpStatus
@@ -33,13 +32,14 @@ class AuthFilter(
                 .bodyValue(ValidateRequest(token))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(ValidateResponse::class.java)
-                .flatMap { response: ValidateResponse ->
-                    val modifiedRequest = exchange.request.mutate()
-                        .header("X-User-Roles", response.role)
-                        .header("X-User-Username", response.username)
-                        .build()
-                    chain.filter(exchange.mutate().request(modifiedRequest).build())
+                .bodyToMono(Boolean::class.java)
+                .onErrorResume { Mono.just(false) }
+                .flatMap { response: Boolean ->
+                    if (!response) {
+                        exchange.response.setStatusCode(HttpStatus.UNAUTHORIZED)
+                        return@flatMap exchange.response.setComplete()
+                    }
+                    chain.filter(exchange)
                 }
         }
 

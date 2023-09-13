@@ -1,9 +1,6 @@
 package com.company.user.model.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
@@ -18,6 +15,7 @@ data class User(
     @Column(unique = true)
     val phoneNumber: String,
     @ManyToOne
-    val role: Role? = null
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    val role: Role
 ) : BaseEntity()
 
