@@ -9,3 +9,5 @@ open class EmployeeException(open val data: Map<String, String>? = null) : Runti
 @EmployeeResponseStatus(httpCode = HttpStatus.NOT_FOUND, reason = "Employee not found", responseCode = ResponseCode.CP1005)
 data class EmployeeNotFound(override val message: String?= null, override val data: Map<String, String>? = null) : EmployeeException()
 
+@EmployeeResponseStatus(httpCode = HttpStatus.BAD_REQUEST, reason = "JWT not valid", responseCode = ResponseCode.CP1003)
+data class JwtNotValid(override val message: String?= null, override val data: Map<String, String>? = null) : EmployeeException()
