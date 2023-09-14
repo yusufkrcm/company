@@ -16,6 +16,6 @@ data class User(
     val phoneNumber: String,
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
-    val role: Role
+    var role: Role?
 ) : BaseEntity()
 
