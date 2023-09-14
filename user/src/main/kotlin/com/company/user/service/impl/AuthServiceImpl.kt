@@ -1,6 +1,6 @@
 package com.company.user.service.impl
 
-import com.company.user.mapper.toEntity
+import com.company.user.model.mapper.UserMapper
 import com.company.user.model.entity.User
 import com.company.user.model.exception.UserAlreadyExists
 import com.company.user.model.exception.WrongPassword
@@ -22,7 +22,8 @@ class AuthServiceImpl(
     private val userService: UserService,
     private val roleService: RoleService,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtUtil: JwtUtil
+    private val jwtUtil: JwtUtil,
+    private val userMapper: UserMapper
 ) : AuthService {
 
     private val userRole: String = "USER"
@@ -44,7 +45,7 @@ class AuthServiceImpl(
         val role = roleService.findRoleByName(this.userRole)
 
         try {
-            userService.save(request.toEntity(role))
+            userService.save(userMapper.toEntity(role))
         } catch (e: DataIntegrityViolationException) {
             throw UserAlreadyExists()
         }

@@ -24,4 +24,5 @@ data class RoleNotFound(override val message: String?= null, override val data: 
 @UserResponseStatus(httpCode = HttpStatus.BAD_REQUEST, reason = "Validation error", responseCode = ResponseCode.CP1002)
 data class UserValidationException(override val message: String?= null, override val data: Map<String, String>? = null) : UserException()
 
-
+@UserResponseStatus(httpCode = HttpStatus.BAD_REQUEST, reason = "Mapping error", responseCode = ResponseCode.CP1004)
+data class MapperException(override val message: String?= null, override val data: Map<String, String>? = null) : UserException()
