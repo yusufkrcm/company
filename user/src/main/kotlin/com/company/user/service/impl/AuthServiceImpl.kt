@@ -32,7 +32,7 @@ class AuthServiceImpl(
 
         val user: User = userService.findByUsername(request.username)
 
-        if (passwordEncoder.matches(request.password, user.password)) {
+        if (request.password == user.password) {
             val role: String = user.role!!.name
             return LoginResponse(jwtUtil.generateToken(user.id.toString(), role))
         } else {
