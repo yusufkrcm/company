@@ -1,4 +1,4 @@
-CREATE TABLE roles
+CREATE TABLE IF NOT EXISTS roles
 (
     id           UUID NOT NULL,
     created_date TIMESTAMP WITHOUT TIME ZONE,
@@ -12,7 +12,7 @@ CREATE TABLE roles
     CONSTRAINT uc_roles_name UNIQUE (name)
 );
 
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     id           UUID NOT NULL,
     created_date TIMESTAMP WITHOUT TIME ZONE,
@@ -36,7 +36,7 @@ CREATE TABLE users
 );
 
 INSERT INTO roles (id, created_date, updated_date, name, deleted, version)
-VALUES (gen_random_uuid(), current_timestamp, current_timestamp, 'USER', false, 0);
+VALUES (gen_random_uuid(), current_timestamp, current_timestamp, 'USER', false, 0) on conflict do nothing;
 
 INSERT INTO roles (id, created_date, updated_date, name, deleted, version)
-VALUES (gen_random_uuid(), current_timestamp, current_timestamp, 'ADMIN', false, 0);
+VALUES (gen_random_uuid(), current_timestamp, current_timestamp, 'ADMIN', false, 0) on conflict do nothing;
